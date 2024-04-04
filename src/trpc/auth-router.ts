@@ -2,6 +2,10 @@ import { AuthCredentialsValidator } from "../lib/validators/accont-credentials-v
 import { publicProcedure, router } from "./trpc";
 import { getPayloadClient } from "../get-payload";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import VerifyEmail from "@/components/VerifyEmail";
+import { Input } from "@/components/ui/input";
+import payload from "payload";
 
 export const authRouter = router({
   createPayloadUser: publicProcedure
@@ -21,13 +25,58 @@ export const authRouter = router({
         },
       });
 
-      if(users.length !== 0 ){
-        throw new TRPCError({code: 'CONFLICT'})
+      if (users.length !== 0) {
+        throw new TRPCError({ code: "CONFLICT" });
       }
 
       await payload.create({
         collection: "users",
-        data: {},
-      })
+        data: {
+          email,
+          password,
+          role: "user",
+        },
+      });
+      return { success: true, sentToEmail: true };
+    }),
+
+  //api route definition
+  verifyEmail: publicProcedure
+    .input(z.object({ token: z.string() }))
+    .query(async ({ input }) => {
+      const { token } = input;
+
+      const payload = await getPayloadClient();
+
+      const isVerified = payload.verifyEmail({
+        collection: "users",
+        token,
+      });
+
+      if (!isVerified) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      console.log(token);
+      return { success: true };
+    }),
+
+  signIn: publicProcedure
+    .input(AuthCredentialsValidator)
+    .mutation(async ({ input }) => {
+      const { email, password } = input;
+
+      const payload = await getPayloadClient();
+
+      try {
+        await payload.login({
+          collection: "users",
+          data: {
+            email,
+            password,
+          },
+          // req
+        });
+      } catch (error) {}
     }),
 });
