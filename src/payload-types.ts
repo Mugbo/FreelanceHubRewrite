@@ -9,6 +9,8 @@
 export interface Config {
   collections: {
     users: User;
+    work: Work;
+    workFiles: WorkFile;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -28,9 +30,45 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "work".
+ */
+export interface Work {
+  id: string;
+  user?: (string | null) | User;
+  title: string;
+  description?: string | null;
+  price: number;
+  category: 'Find Work' | 'Find Devleopers';
+  workFiles: (string | WorkFile)[];
+  approved?: ('unverified' | 'approved' | 'rejected') | null;
+  priceId?: string | null;
+  stripeId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workFiles".
+ */
+export interface WorkFile {
+  id: string;
+  user?: (string | User)[] | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
