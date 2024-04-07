@@ -11,6 +11,7 @@ export interface Config {
     users: User;
     work: Work;
     workFiles: WorkFile;
+    images: Image;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -23,6 +24,8 @@ export interface Config {
 export interface User {
   id: string;
   role?: ('admin' | 'user') | null;
+  biography?: string | null;
+  ProfilePicture?: string | Image | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -38,6 +41,32 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "images".
+ */
+export interface Image {
+  id: string;
+  user?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  sizes?: {
+    profile?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "work".
  */
 export interface Work {
@@ -47,7 +76,7 @@ export interface Work {
   description?: string | null;
   price: number;
   category: 'Find Work' | 'Find Devleopers';
-  workFiles: (string | WorkFile)[];
+  workFiles: string | WorkFile;
   approved?: ('unverified' | 'approved' | 'rejected') | null;
   priceId?: string | null;
   stripeId?: string | null;

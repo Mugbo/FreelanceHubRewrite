@@ -1,4 +1,4 @@
-import { CATEGORIES } from "../config"; 
+import { CATEGORIES } from "../config";
 import { CollectionConfig } from "payload/types";
 
 export const Work: CollectionConfig = {
@@ -44,7 +44,6 @@ export const Work: CollectionConfig = {
       type: "relationship",
       required: true,
       relationTo: "workFiles",
-      hasMany: true,
     },
     {
       name: "approved",
@@ -84,7 +83,7 @@ export const Work: CollectionConfig = {
       },
     },
     {
-        name: "stripeId",
+      name: "stripeId",
       access: {
         create: () => false,
         read: () => false,
@@ -94,7 +93,6 @@ export const Work: CollectionConfig = {
       admin: {
         hidden: true,
       },
-    }, 
+    }
   ],
-
 };

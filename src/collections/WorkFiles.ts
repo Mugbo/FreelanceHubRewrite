@@ -8,18 +8,30 @@ const addUser: BeforeChangeHook = ({ req, data }) => {
   return{...data, user: user?.id,}
 };
 
-const CanCRUD = (): Access =>
-  async ({ req }) => {
-    const user = req.user as User | undefined
+const CanCRUD: Access = async ({ req }) => {
+    const user = req.user as User | null
 
     if (!user) return false
-    if (user.role === 'admin') return true
+    if (user?.role === 'admin') return true
 
-    return {
-      user: {
-        equals: req.user.id,
-      },
+    const {docs: work} = await req.payload.find({
+      collection: 'work',
+      depth: 0,
+      where:{
+        user: {
+          equals: user.id,
+        },
+      }
+    })
+
+    const OwnedWorkFiles = work.map((wk) => wk.workFiles)
+
+    return{
+      id:{
+        in: [...OwnedWorkFiles]
+      }
     }
+
 }
 
 export const WorkFiles: CollectionConfig = {
@@ -31,28 +43,25 @@ export const WorkFiles: CollectionConfig = {
     beforeChange: [addUser],
   },
   access:{
-    read: async({req}) => {
-        const ref = req.headers.referer
+    read: () => true,
+    // async({req}) => {
+    //     const ref = req.headers.referer
 
-        if( !ref?.includes('admin')){
-            return true
-        }
+    //     if( !ref?.includes('admin')){
+    //         return true
+    //     }
 
-        return await CanCRUD()({req})
-    },
-    delete: CanCRUD(),
-    update: CanCRUD(),
+    //     return await CanCRUD()({req})
+    // },
+    delete: CanCRUD,
+    update: CanCRUD,
   },
   upload: {
-    staticURL: "/work-files",
-    staticDir: "workFiles",
+    staticURL: "/work_files",
+    staticDir: "work_files",
     mimeTypes: [
-      "text/plain",
-      "text/html",
-      "text/javascript",
-      "application/json",
-      "text/javascript",
-      "application/rtf",
+      "text/*",
+      "application/*",
     ],
   },
   fields: [

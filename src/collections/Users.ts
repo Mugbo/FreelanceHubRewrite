@@ -1,3 +1,4 @@
+import { access } from "fs";
 import { CollectionConfig } from "payload/types";
 
 export const Users: CollectionConfig = {
@@ -27,5 +28,17 @@ export const Users: CollectionConfig = {
         { label: "User", value: "user" },
       ],
     },
+    {
+      name: "biography",
+      label: "biography",
+      type: "textarea",
+      required: false,
+    },
+    {
+      name: "ProfilePicture",
+      type: "upload",
+      relationTo: "images"
+    }
+  
   ],
 };

@@ -1,3 +1,4 @@
+import HomeMainbar from "@/components/HomeMainbar";
 import MaxWidthWrapper from "@/components/maxWidthWrapper";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowDownToLineIcon, CheckCircle, Leaf } from "lucide-react";
@@ -25,7 +26,7 @@ export default function Home() {
   return (
     <>
       <MaxWidthWrapper>
-        <div className="py-20 mx-auto text-centre flex flex-col items-center max-w-3xl">
+        <div className="mt-20 mx-auto text-centre flex flex-col items-center max-w-3xl">
           <h1 className="text-3xl font-bold tracking-tight text-black-900">
             The worlds marketplace for {""}
             <span className="text-red-600">Coding Collaboration</span>
@@ -44,7 +45,7 @@ export default function Home() {
             </Button>
             </div>
         </div>
-        {/* {TODO: add code} */}
+        <HomeMainbar title="newest" sub="Help others and earn simultaneously" href="/work" query={{sort: "desc", limit: 4}}/>
       </MaxWidthWrapper>
 
       <section className="'border-t border-gray-200 bg-gray-50">

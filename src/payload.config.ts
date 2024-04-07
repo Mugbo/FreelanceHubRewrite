@@ -7,6 +7,7 @@ import { Users } from "./collections/Users";
 import { Work } from "./collections/Work"
 import dotenv from "dotenv"
 import { WorkFiles } from "./collections/WorkFiles";
+import { Images } from "./collections/Images";
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
@@ -14,7 +15,7 @@ dotenv.config({
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "",
-  collections: [Users, Work, WorkFiles],
+  collections: [Users, Work, WorkFiles, Images],
   routes: {
     admin: "/admin",
   },
