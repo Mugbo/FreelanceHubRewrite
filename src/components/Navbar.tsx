@@ -8,6 +8,9 @@ import { buttonVariants } from "./ui/button";
 import { getServerSideUser } from "@/lib/payload-utils";
 import {cookies} from "next/headers"
 import UserAccountNav from "./UserAccountNav";
+import Image from "next/image";
+import Logo from "./../../public/Screenshot.ico"
+
 
 const Navbar = async() => {
   const nextCookies = cookies()
@@ -22,7 +25,8 @@ const Navbar = async() => {
 
               <div className="ml-4 flex lg:ml-0">
                 <Link href="/">
-                  <Icons.logo className="h-10 w-10" />
+                  {/* <Image  className="h-10 w-10" /> */}
+                  <Image src ={Logo} alt = "FreelaneHub" className="h-12 w-12 rounded-lg"></Image>
                 </Link>
               </div>
               <div className=" z-50 lg:ml-8 lg:block lg:self-stretch">

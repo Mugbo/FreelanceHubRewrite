@@ -1,5 +1,7 @@
+import { BeforeChangeHook } from "payload/dist/collections/config/types";
 import { CATEGORIES } from "../config";
 import { CollectionConfig } from "payload/types";
+import { User } from "../payload-types";
 
 export const Work: CollectionConfig = {
   slug: "work",
@@ -36,14 +38,15 @@ export const Work: CollectionConfig = {
       label: "category",
       type: "select",
       options: CATEGORIES.map(({ label, value }) => ({ label, value })),
-      required: true,
+      required: false,
     },
     {
       name: "workFiles",
       label: "Work Files",
       type: "relationship",
-      required: true,
+      required: false,
       relationTo: "workFiles",
+      hasMany: true
     },
     {
       name: "approved",

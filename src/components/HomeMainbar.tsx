@@ -16,6 +16,7 @@ interface HomeMainBarProps {
   sub: string;
   href?: string;
   query: TQueryValidator;
+  limit?: number;
 
 }
 

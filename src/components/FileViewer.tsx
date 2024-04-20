@@ -1,30 +1,53 @@
-import { Work } from '@/payload-types';
-import React, { useState, useEffect } from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+"use client";
+import { Work } from "@/payload-types";
+import React, { useState, useEffect } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { a11yDark, dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface FileViewerProps {
-    workItem: Work
+  fileUrl: string | null | undefined;
+  fileName: string | null | undefined;
 }
 
-const FileViewer = ({ workItem }:FileViewerProps) => {
+const FileViewer = ({ fileUrl, fileName }: FileViewerProps) => {
+  const [fileContent, setFileContent] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
-    const validUrls = workItem.workFiles.map(({ }) =>
+  const toggleOpen = () => setIsOpen(!isOpen);
 
-    ).filter(Boolean) as string[]
-
-  const [fileContent, setFileContent] = useState('');
+  fileUrl;
 
   useEffect(() => {
-    fetch(fileUrl)
+    fetch(fileUrl as string)
       .then((response) => response.text())
       .then((text) => setFileContent(text));
   }, [fileUrl]);
-
   return (
-    <SyntaxHighlighter language="javascript" style={dark}>
-      {fileContent}
-    </SyntaxHighlighter>
+    <div className="border-4 border-black rounded-lg">
+      <div
+        style={{
+          background: "#333",
+          color: "#fff",
+          padding: "10px",
+          cursor: "pointer",
+        }}
+        onClick={toggleOpen}
+      >
+        <div className="flex">
+          <p>{fileName}</p>
+          <p className="ml-auto">{isOpen ? "Hide Code" : "Show Code"}</p>
+        </div>
+      </div>
+      {isOpen && (
+        <SyntaxHighlighter
+          showLineNumbers={true}
+          language="javascript"
+          style={a11yDark}
+        >
+          {fileContent}
+        </SyntaxHighlighter>
+      )}
+    </div>
   );
 };
 

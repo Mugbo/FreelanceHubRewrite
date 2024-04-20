@@ -34,9 +34,12 @@ export default function Home() {
           <p className="mt-6 text-lg max-w-prose text-muted-foreground">
             Welcome to FreelaneHUB.{" "}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <Link href="/trending" className={buttonVariants()}>
+          <div className="flex flex-row gap-4 mt-6">
+            <Link href="/market" className={buttonVariants()}>
               View the market
+            </Link>
+            <Link href="/posting" className={buttonVariants()}>
+              Create a post
             </Link>
           </div>
           <div className="mt-6">

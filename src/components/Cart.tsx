@@ -15,7 +15,7 @@ import {
 
 const Cart = () => {
   //mock for cart content until dynamic cart functionality implemeneted
-  const cartContent = 1;
+  const cartContent = 0;
   const fee = 700;
 
   return (
