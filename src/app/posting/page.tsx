@@ -45,12 +45,12 @@ const FormPage = ({params}:CreateWorkPostProps) => {
 
   const onSubmit = ({ title, description, workFiles, user }: TPostDataValidator) => {
     const filesArray = workFiles ? Array.from(workFiles).map(file => (file as File).name) : [];
-    user = userId;
+
     mutate({
       title,
       description,
       workFiles: filesArray,
-      user,
+      user: userId,
     });
   };
 

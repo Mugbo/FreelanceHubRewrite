@@ -7,26 +7,27 @@ import WorkListings from "./WorkListings";
 import { Separator } from "./ui/separator";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
+import { TUserWorkQueryValidator } from "../lib/validators/user-work-query-validator";
 
 
 
 
-interface HomeMainBarProps {
+interface UserWorkProps {
   title: string;
   sub: string;
   href?: string;
-  query: TQueryValidator;
+  query: TUserWorkQueryValidator;
   limit?: number;
 
 }
 
 const FALLBACK_LIMIT = 4;
 
-const HomeMainbar = (props: HomeMainBarProps) => {
+const UserWork = (props: UserWorkProps) => {
 
   const { title, sub, href, query} = props;
 
-  const { data: queryResults } = trpc.getAllWorkForMarketplace.useInfiniteQuery(
+  const { data: queryResults } = trpc.getAllWorkFromUser.useInfiniteQuery(
     {
       limit: query.limit ?? FALLBACK_LIMIT,
       query,
@@ -95,4 +96,4 @@ const HomeMainbar = (props: HomeMainBarProps) => {
   );
 };
 
-export default HomeMainbar;
+export default UserWork;

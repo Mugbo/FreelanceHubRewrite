@@ -26,7 +26,7 @@ const Navbar = async() => {
               <div className="ml-4 flex lg:ml-0">
                 <Link href="/">
                   {/* <Image  className="h-10 w-10" /> */}
-                  <Image src ={Logo} alt = "FreelaneHub" className="h-12 w-12 rounded-lg"></Image>
+                  <Image src ={Logo} alt = "FreelaneHub" className="h-10 w-10 rounded-lg"></Image>
                 </Link>
               </div>
               <div className=" z-50 lg:ml-8 lg:block lg:self-stretch">

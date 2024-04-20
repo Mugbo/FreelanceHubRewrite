@@ -1,5 +1,6 @@
 import FileViewer from "@/components/FileViewer";
 import HomeMainbar from "@/components/HomeMainbar";
+import UserWork from "@/components/UserWork";
 import MaxWidthWrapper from "@/components/maxWidthWrapper";
 import { Button } from "@/components/ui/button";
 import { getPayloadClient } from "@/get-payload";
@@ -61,7 +62,7 @@ const Page = async ({ params }: UserPageProps) => {
     </div>
   </div>
 </div>
-<HomeMainbar title=""  sub={"Post History"} query={{sort: "desc", limit: 4}}/>
+<UserWork title=""  sub={"Post History"} query={{sort: "desc", limit: 4 , userId: userId}}/>
     </MaxWidthWrapper>
   );
 };

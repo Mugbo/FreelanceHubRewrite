@@ -6,6 +6,7 @@ import { getPayloadClient } from "../get-payload";
 import { PostDataValidator } from "../lib/validators/post-validator";
 import payload from "payload";
 import workRouter from "./work-router";
+import { UserWorkQueryValidator } from "../lib/validators/user-work-query-validator";
 
 export const appRouter = router({
   auth: authRouter,
@@ -57,60 +58,54 @@ export const appRouter = router({
       };
     }),
 
-  // createWorkPosting: publicProcedure
-  //   .input(PostDataValidator)
-  //   .mutation(async ({ input, ctx }) => {
-  //    // const { user, price, title, workFiles, description} = input;
-  //     const { title, description} = input;
-  //     const {res} = ctx;
+    getAllWorkFromUser: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100),
+        cursor: z.number().nullish(),
+        query: UserWorkQueryValidator,
+      })
+    )
+    .query(async ({ input }) => {
+      const { query, cursor} = input;
+      const { sort, limit, userId, ...queryOpts } = query;
 
-  //     const payload = await getPayloadClient();
+      const payload = await getPayloadClient();
 
-  //     const approved = "unverified";
-  //     const category = null;
-  //     const price = 1
-  //     // WorkFiles = ;
+      const parsedQerOpts: Record<string, { equals: string }> = {};
 
-  //     const result = await payload.create({
-  //       collection: "work",
-  //       data: {
-  //          price,
-  //         title,
-  //         workFiles : [],
-  //         description,
-  //         category,
-  //         approved,
-  //       },
-  //       user: ctx.req.params.user, // Assuming you have access to the context.user
-  //     });
-  //     return { success: true, message: 'Work posted successfully.', result };
-  //   }),
+      Object.entries(queryOpts).forEach(([key, value]) => {
+        parsedQerOpts[key] = {
+          equals: value,
+        };
+      });
 
-  //   export const createWorkPosting = publicProcedure
-  // .input(PostDataValidator)
-  // .mutation(async ({ input, context }) => {
-  //   const { user, price, title, workFiles, description, category } = input;
+      const page = cursor || 1;
 
-  //   // Set the default approval status
-  //   const approved = 'unverified';  // Default approval status for a new work posting
+      console.log(userId)
+      const {
+        docs: items,
+        hasNextPage,
+        nextPage,
+      } = await payload.find({
+        collection: "work",
+        where: {
+          user:{
+            equals: userId
+          }
+        },
+        sort,
+        depth: 1,
+        limit,
+        page,
+      });
+      return {
+        items,
+        nextPage: hasNextPage ? nextPage : null,
+      };
+    }),
 
-  //   // Create the new work posting in the 'work' collection
-  //   const result = await payload.create({
-  //     collection: 'work',
-  //     data: {
-  //       user,
-  //       price,
-  //       title,
-  //       workFiles,
-  //       description,
-  //       category,
-  //       approved
-  //     },
-  //     user: context.user, // Assuming you have access to the context.user
-  //   });
-
-  //   return { success: true, message: 'Work posted successfully.', result };
-  // });
+  
 });
 
 export type AppRouter = typeof appRouter;
