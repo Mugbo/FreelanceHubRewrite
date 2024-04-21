@@ -56,7 +56,7 @@ const Page = async ({ params }: WorkViewPageProps) => {
   const WorkFilesDisplay = (work: (string | WorkFile)[]): JSX.Element => {
     return (
       <>
-        <div className="max-h-[800px] overflow-y-auto border border-gray-300 p-2">
+        <div className="max-h-[800px] overflow-y-auto border border-gray-300 rounded-lg p-2">
           {work.map((file, index) => {
             if (typeof file === "object" && "url" in file) {
               return (
@@ -68,7 +68,6 @@ const Page = async ({ params }: WorkViewPageProps) => {
             return null;
           })}
         </div>
-        <div>11111</div>
       </>
     );
   };
@@ -82,7 +81,9 @@ const Page = async ({ params }: WorkViewPageProps) => {
       <div className="relative w-full pt-5">
         <WorkListings workItem={workView} index={1} key={`workItem-${1}`} />
       </div>
+      <div className="pb-3">
       {hasWorkFiles(workView.workFiles) && WorkFilesDisplay(workView.workFiles|| [])}
+      </div>
 
        <Replies params= {{userId: userId || "", workId: workId}}>
 
