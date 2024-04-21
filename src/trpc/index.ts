@@ -7,10 +7,12 @@ import { PostDataValidator } from "../lib/validators/post-validator";
 import payload from "payload";
 import workRouter from "./work-router";
 import { UserWorkQueryValidator } from "../lib/validators/user-work-query-validator";
+import { replyRouter } from "./reply-router";
 
 export const appRouter = router({
   auth: authRouter,
   work: workRouter,
+  reply: replyRouter,
 
   getAllWorkForMarketplace: publicProcedure
     .input(

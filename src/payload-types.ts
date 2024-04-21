@@ -12,6 +12,7 @@ export interface Config {
     work: Work;
     workFiles: WorkFile;
     images: Image;
+    replies: Reply;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -98,6 +99,22 @@ export interface WorkFile {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "replies".
+ */
+export interface Reply {
+  id: string;
+  user?: (string | null) | User;
+  title: string;
+  description?: string | null;
+  work: string | Work;
+  workFiles?: (string | WorkFile)[] | null;
+  upvotes?: number | null;
+  downvotes?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

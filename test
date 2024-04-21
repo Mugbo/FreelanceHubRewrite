@@ -1,0 +1,38 @@
+import React, { useState } from 'react';
+import { ArrowDown } from 'lucide-react';
+import Link from 'next/link';
+
+const ReplyListing = ({ replyItem, index }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpand = () => setIsExpanded(!isExpanded);
+
+  return (
+    <div className={`p-4 rounded shadow-md border border-black mb-3 space-x-4 ${isExpanded ? '' : 'max-h-32 overflow-hidden'}`}>
+      <div className="flex flex-col items-start justify-center pr-5 border-r border-gray-400">
+        {/* Voting section */}
+        {/* Content */}
+      </div>
+      <div className="flex-grow pl-5">
+        <Link href={`/workview/${replyItem.id}`} className="hover:underline">
+          <h3 className="font-semibold text-lg text-red-900 py-1 mb-2">
+            {replyItem.title}
+          </h3>
+        </Link>
+        <p className="text-sm text-gray-600" style={{ maxWidth: "25rem" }}>
+          {replyItem.description}
+        </p>
+      </div>
+      <button
+        onClick={toggleExpand}
+        className="flex items-center justify-center mt-2"
+      >
+        <ArrowDown
+          className={`transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+        />
+        <span>{isExpanded ? 'Minimize' : 'Expand'}</span>
+      </button>
+    </div>
+  );
+};
+
+export default ReplyListing;
