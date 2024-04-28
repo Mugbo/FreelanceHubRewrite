@@ -6,7 +6,7 @@ import {
   PostDataValidator,
   TPostDataValidator,
 } from "../../lib/validators/post-validator";
-import { trpc } from "@/trpc/client"; // Ensure this import points to your configured TRPC client
+import { trpc } from "../../trpc/client"; 
 import { ZodError } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -43,14 +43,13 @@ const FormPage = ({params}:CreateWorkPostProps) => {
     },
   }); // Correct usage of TRPC mutation
 
-  const onSubmit = ({ title, description, workFiles, user }: TPostDataValidator) => {
+  const onSubmit = ({ title, description, workFiles }: TPostDataValidator) => {
     const filesArray = workFiles ? Array.from(workFiles).map(file => (file as File).name) : [];
 
     mutate({
       title,
       description,
       workFiles: filesArray,
-      user: userId,
     });
   };
 

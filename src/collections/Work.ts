@@ -10,7 +10,7 @@ import { User } from "../payload-types";
 // };
 
 const addUser: BeforeChangeHook = ({ req, data }) => {
-  const userId = data.user || req.user?.id;
+  const userId = req.user?.id|| data.user;
   if (userId) {
     return { ...data, user: userId };
   }

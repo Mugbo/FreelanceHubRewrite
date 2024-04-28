@@ -1,25 +1,24 @@
-// index.ts
 import { getPayloadClient } from "../get-payload";
-import { router, publicProcedure } from "./trpc";
+import { router, publicProcedure, privateProcedure } from "./trpc";
 import { PostDataValidator } from "../lib/validators/post-validator";
 
 export const workRouter = router({
-  createWorkPosting: publicProcedure
+  createWorkPosting: privateProcedure
     .input(PostDataValidator)
-    .mutation(async ({ input }) => {
-      const { title, description, workFiles, user } = input;
+    .mutation(async ({ input, ctx }) => {
+      const { title, description, workFiles } = input;
+      const { user } = ctx;
 
       const payload = await getPayloadClient();
 
-      // Assuming there is some mechanism to validate the user and files here
       const newWork = await payload.create({
         collection: "work",
         data: {
           title,
           description,
           workFiles,
-          user: user,
-          approved: "unverified", // Default state
+          user: user.id,
+          approved: "unverified",
           price: 0,
         },
       });
