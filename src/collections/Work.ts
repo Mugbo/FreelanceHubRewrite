@@ -10,12 +10,11 @@ import { User } from "../payload-types";
 // };
 
 const addUser: BeforeChangeHook = ({ req, data }) => {
-  // Prefer user ID directly from data if present, otherwise use req.user
   const userId = data.user || req.user?.id;
   if (userId) {
     return { ...data, user: userId };
   }
-  return data; // or handle error if no user info is available
+  return data;
 };
 
 export const Work: CollectionConfig = {

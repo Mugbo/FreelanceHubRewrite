@@ -16,9 +16,8 @@ import { trpc } from "@/trpc/client";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 import { useRouter } from "next/navigation";
-
-
-
+import Image from "next/image";
+import Logo from "../../../../public/Screenshot.ico"
 
 const Page = () => {
 
@@ -61,7 +60,11 @@ const Page = () => {
       <div className="= container relative flex pt-20 flex-col items-center justify-center lg:px-0">
         <div className="mx- auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col items-center space-y-2 text-center">
-            <Icons.logo className="h-20 w-20" />
+          <div className="ml-4 flex lg:ml-0">
+                <Link href="/">
+                  <Image src ={Logo} alt = "FreelaneHub" className="h-13 w-13 rounded-lg"></Image>
+                </Link>
+              </div>
             <h1 className="text-2xl font-bold">Create an Account</h1>
             <Link
               className={buttonVariants({

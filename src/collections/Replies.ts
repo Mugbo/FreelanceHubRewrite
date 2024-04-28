@@ -2,17 +2,14 @@ import { BeforeChangeHook } from "payload/dist/collections/config/types";
 import { CollectionConfig } from "payload/types";
 
 const addUserAndWork: BeforeChangeHook = ({ req, data }) => {
-    // Prefer user ID directly from data if present, otherwise use req.user
     const userId = data.user || req.user?.id;
 
-    // Check if 'work' field is provided in the incoming data
-    const work = data.work; // Assuming 'work' is an ID or array of IDs that need to be linked
+    const work = data.work;
 
-    // Combine incoming data with user and work data
     const newData = {
         ...data,
-        ...(userId && { user: userId }),  // Only add 'user' key if userId is not null
-        ...(work && { work: work })       // Only add 'work' key if work is not null
+        ...(userId && { user: userId }), 
+        ...(work && { work: work })      
     };
 
     return newData;

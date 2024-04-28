@@ -13,6 +13,7 @@ export interface Config {
     workFiles: WorkFile;
     images: Image;
     replies: Reply;
+    workOrder: WorkOrder;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -113,6 +114,18 @@ export interface Reply {
   workFiles?: (string | WorkFile)[] | null;
   upvotes?: number | null;
   downvotes?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workOrder".
+ */
+export interface WorkOrder {
+  id: string;
+  work: string | Work;
+  user: string | User;
+  _isPaid: boolean;
   updatedAt: string;
   createdAt: string;
 }

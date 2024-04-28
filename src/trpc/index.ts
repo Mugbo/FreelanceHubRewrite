@@ -8,11 +8,13 @@ import payload from "payload";
 import workRouter from "./work-router";
 import { UserWorkQueryValidator } from "../lib/validators/user-work-query-validator";
 import { replyRouter } from "./reply-router";
+import { paymentsRouter } from "./stripe-router";
 
 export const appRouter = router({
   auth: authRouter,
   work: workRouter,
   reply: replyRouter,
+  pay: paymentsRouter,
 
   getAllWorkForMarketplace: publicProcedure
     .input(

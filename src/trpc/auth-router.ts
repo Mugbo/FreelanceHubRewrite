@@ -37,7 +37,7 @@ export const authRouter = router({
           role: "user",
         },
       });
-      return { success: true, sentToEmail: true };
+      return { success: true, sentToEmail: email };
     }),
 
   //api route definition

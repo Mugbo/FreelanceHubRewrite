@@ -1,4 +1,3 @@
-import { access } from "fs";
 import { CollectionConfig } from "payload/types";
 
 export const Users: CollectionConfig = {

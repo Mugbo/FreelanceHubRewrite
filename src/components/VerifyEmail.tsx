@@ -1,5 +1,4 @@
 "use client";
-//client component beu
 
 import { trpc } from "@/trpc/client";
 import { XCircle } from "lucide-react";

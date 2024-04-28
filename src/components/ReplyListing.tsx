@@ -16,7 +16,7 @@ interface ReplyListingProps {
 }
 
 interface ReplyComponentProps {
-  replyId: string; // Type specified as string
+  replyId: string;
 }
 
 const ReplyListing = ({ replyItem, index }: ReplyListingProps) => {

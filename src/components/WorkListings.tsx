@@ -69,14 +69,6 @@ const WorkListings = ({ workItem, index }: WorkListingsProps) => {
 
 const WorkPlaceHolder = () => {
   return (
-    // <div className="flex flex-col w-full">
-    //     <div>
-    //         <Skeleton/>
-    //     </div>
-    //     <Skeleton />
-    //     <Skeleton />
-    //     <Skeleton />
-    // </div>
     <div className="p-4 bg-white rounded shadow-md">
       <div className="mb-4">
         <Skeleton className="h-2 w-3/4 rounded-full" />

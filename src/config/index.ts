@@ -1,3 +1,7 @@
+// import frontendImg from "../../public/Frontend.png"
+// import backendImg from "../../public/backend.png"
+// import fullStackImg from "../../public/Fullstack.png"
+
 export const CATEGORIES = [
   {
     label: "Find Work",
@@ -5,18 +9,18 @@ export const CATEGORIES = [
     featured: [
       {
         name: "Front-end",
-        href: "#",
-        imageSrc: "",
+        href: "/market",
+        // imageSrc: frontendImg,
       },
       {
         name: "Back-end",
         href: "#",
-        imageSrc: "",
+        // imageSrc: backendImg,
       },
       {
         name: "All",
         href: "#",
-        imageSrc: "",
+        // imageSrc: fullStackImg,
       },
     ],
   },
@@ -27,17 +31,17 @@ export const CATEGORIES = [
       {
         name: "Front-end",
         href: "#",
-        imageSrc: "",
+        // imageSrc: frontendImg,
       },
       {
         name: "Back-end",
         href: "#",
-        imageSrc: "",
+        // imageSrc: backendImg,
       },
       {
         name: "All",
         href: "#",
-        imageSrc: "/nav/icons/bestsellers.jpg",
+        // imageSrc: fullStackImg,
       },
     ],
   },
