@@ -1,13 +1,14 @@
-import FileViewer from "@/components/FileViewer";
-import HomeMainbar from "@/components/HomeMainbar";
-import UserWork from "@/components/UserWork";
-import MaxWidthWrapper from "@/components/maxWidthWrapper";
-import { Button } from "@/components/ui/button";
-import { getPayloadClient } from "@/get-payload";
-import { User, WorkFile } from "@/payload-types";
+import FileViewer from "../../../components/FileViewer"
+import HomeMainbar from "../../..//components/HomeMainbar";
+import UserWork from "../../..//components/UserWork";
+import MaxWidthWrapper from "../../..//components/maxWidthWrapper";
+import { Button } from "../../..//components/ui/button";
+import { getPayloadClient } from "../../..//get-payload";
+import { User, WorkFile } from "../../..//payload-types";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import React from "react";
 
 interface UserPageProps {
   params: {

@@ -1,12 +1,13 @@
-import MaxWidthWrapper from "@/components/maxWidthWrapper";
+import MaxWidthWrapper from "../../../components/maxWidthWrapper";
 import { getPayloadClient } from "../../../get-payload";
 import { notFound } from "next/navigation";
 import FileViewer from "../../../components/FileViewer";
-import { Work, WorkFile } from "@/payload-types";
-import WorkListings from "@/components/WorkListings";
-import Replies from "@/components/Replies";
+import { Work, WorkFile } from "../../..//payload-types";
+import WorkListings from "../../..//components/WorkListings";
+import Replies from "../../..//components/Replies";
 import { useState } from "react";
-import ViewReplies from "@/components/ViewReplies";
+import ViewReplies from "../../..//components/ViewReplies";
+import React from "react";
 
 interface WorkViewPageProps {
   params: {
@@ -46,7 +47,7 @@ const Page = async ({ params }: WorkViewPageProps) => {
     userId = workView.user.id;
   }
 
-  
+
 
 
   function hasWorkFiles(

@@ -3,12 +3,10 @@ import { useEffect, useState } from "react";
 import { Reply, Work } from "../payload-types";
 import { Skeleton } from "./ui/skeleton";
 import Link from "next/link";
-import { cn, pricingFormat } from "../lib/utils";
-import { CATEGORIES } from "@/config";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import MaxWidthWrapper from "./maxWidthWrapper";
-import { trpc } from "@/trpc/client";
-import { toast } from "sonner";
+import { trpc } from "../trpc/client";
+import React from "react";
 
 interface ReplyListingProps {
   replyItem: Reply | null;
