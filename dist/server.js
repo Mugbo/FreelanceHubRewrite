@@ -87,7 +87,7 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
             case 0:
                 webhookMiddleware = body_parser_1.default.json({
                     verify: function (req, _, buffer) {
-                        req.rawbody = buffer;
+                        req.rawBody = buffer;
                     },
                 });
                 app.post("/api/webhooks/stripe", webhookMiddleware, webhooks_1.default);
@@ -122,14 +122,14 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                     }); });
                     return [2 /*return*/];
                 }
+                return [4 /*yield*/, next_utils_1.nextApp.prepare()];
+            case 2:
+                _a.sent();
                 app.use("/api/trpc", trpcExpress.createExpressMiddleware({
                     router: trpc_1.appRouter,
                     createContext: createContext,
                 }));
                 app.get("*", function (req, res) { return (0, next_utils_1.nextHandler)(req, res); });
-                return [4 /*yield*/, next_utils_1.nextApp.prepare()];
-            case 2:
-                _a.sent();
                 app.listen(PORT, function () {
                     console.log("Server running on port ".concat(PORT));
                     payload.logger.info("Next.js App URL: ".concat(process.env.NEXT_PUBLIC_SERVER_URL));

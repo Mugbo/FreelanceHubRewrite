@@ -7,7 +7,7 @@ import { Work } from "./payload-types";
 
 const StripeWebhook = async (req: express.Request, res: express.Response) => {
   const webhookRequest = req as any as WebhookRequest;
-  const body = webhookRequest.rawbody;
+  const body = webhookRequest.rawBody;
   const signature = req.headers["stripe-signature"] || "";
 
   let event;
