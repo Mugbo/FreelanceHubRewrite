@@ -54,7 +54,7 @@ export const paymentsRouter = router({
 
       try {
         const stripeSession = await stripe.checkout.sessions.create({
-          success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${workOrder.id}`,
+          success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/ordercomplete?orderId=${workOrder.id}`,
           cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/workpayment/${workId}`,
           payment_method_types: ["card"],
           mode: "payment",
