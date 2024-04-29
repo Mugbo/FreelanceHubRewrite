@@ -57,7 +57,6 @@ export const authRouter = router({
         throw new TRPCError({ code: "UNAUTHORIZED" });
       }
 
-      console.log(token);
       return { success: true };
     }),
 

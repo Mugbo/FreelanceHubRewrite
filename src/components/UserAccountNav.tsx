@@ -11,8 +11,10 @@ import {
 import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
+import StripeLink from "./StripeLink";
 
-const UserAccountNav = ({ user }: { user: User }) => {
+
+const UserAccountNav = ( { user }: { user: User }) => {
   const { signOut } = useAuth();
 
   return (

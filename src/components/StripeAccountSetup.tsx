@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { trpc } from "../trpc/client";
 import { toast } from "sonner";
+import { Button } from "./ui/button";
 
 const StripeAccountSetup = () => {
 
@@ -20,10 +21,9 @@ const StripeAccountSetup = () => {
     
       return (
         <div>
-          <h1>Create Stripe Account</h1>
-          <button onClick={handleCreateAccount} disabled={isLoading}>
-            {isLoading ? 'Creating...' : 'Create Stripe Account'}
-          </button>
+          <Button onClick={handleCreateAccount}>
+            {'Create Stripe Account'}
+          </Button>
         </div>
       );
     };

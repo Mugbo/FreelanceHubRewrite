@@ -29,6 +29,7 @@ export interface User {
   biography?: string | null;
   ProfilePicture?: string | Image | null;
   stripePayoutId?: string | null;
+  onboardedStripe?: ('unverified' | 'verified') | null;
   updatedAt: string;
   createdAt: string;
   email: string;

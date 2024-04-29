@@ -91,41 +91,84 @@ export const paymentsRouter = router({
       return { isPaid: orderDetails._isPaid };
     }),
 
-    createStripeAccount: privateProcedure
-    .mutation(async ({ ctx }) => {
-      
-      const { user } = ctx;
-      const userId = user.id
+  createStripeAccount: privateProcedure.mutation(async ({ ctx }) => {
+    const { user } = ctx;
+    const userId = user.id;
 
+    try {
+      const account = await stripe.accounts.create({
+        type: "express",
+        country: "IE",
+        email: user.email,
+        capabilities: {
+          card_payments: { requested: true },
+          transfers: { requested: true },
+        },
+      });
+
+      const payloadClient = await getPayloadClient();
+
+      await payloadClient.update({
+        collection: "users",
+        id: userId,
+        data: {
+          stripePayoutId: account.id,
+        },
+      });
+
+      return { accountId: account.id };
+    } catch (error) {
+      console.error("Failed to create Stripe account:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to create Stripe account",
+      });
+    }
+  }),
+  generateStripeLoginLink: privateProcedure
+    .input(z.object({ accountId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      // const  accountId  = ctx.user.stripePayoutId as string;
+      const { accountId } = input;
       try {
-        const account = await stripe.accounts.create({
-          type: 'express',
-          country: 'IE',
-          email: user.email,
-          capabilities: {
-            card_payments: { requested: true },
-            transfers: { requested: true },
-          },
-        });
-
-        const payloadClient = await getPayloadClient();
-
-
-        await payloadClient.update({
-          collection: 'users',
-          id: userId,
-          data: {
-            stripePayoutId: account.id
-          }
-        });
-
-        return { accountId: account.id };
+        const loginLink = await stripe.accounts.createLoginLink(accountId);
+        console.log("***");
+        console.log(loginLink);
+        console.log("***");
+        return { url: loginLink.url };
       } catch (error) {
-        console.error('Failed to create Stripe account:', error);
+        console.error("Failed to generate Stripe login link:", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: 'Failed to create Stripe account'
+          message: "Failed to generate Stripe login link",
         });
       }
-    }),
+     }),
+     generateStripeOnboardingLink: privateProcedure
+    .input(z.object({ accountId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { accountId } = input;
+
+      const accountLink = await stripe.accountLinks.create({
+        account: accountId,
+        refresh_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/user/${ctx.user.id}`,
+        return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/user/${ctx.user.id}`,
+        type: 'account_onboarding',
+      });
+
+      const payloadClient = await getPayloadClient();
+
+
+      await payloadClient.update({
+        collection: "users",
+        id: ctx.user.id,
+        data: {
+          onboardedStripe: "verified",
+        },
+      });
+      return{link: accountLink}
+     }),
+
+
+
 });

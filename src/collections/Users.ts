@@ -49,6 +49,24 @@ export const Users: CollectionConfig = {
         hidden: true,
       },
 
+    },
+    {
+      name: "onboardedStripe",
+      type: "select",
+      defaultValue: "unerified",
+      options:[
+        {
+          label: "unverified",
+          value: "unverified",
+        },
+        {
+          label: "verified",
+          value: "verified",
+        },
+      ],
+      admin: {
+        hidden: true,
+      },
     }
   
   ],

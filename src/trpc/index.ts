@@ -86,7 +86,6 @@ export const appRouter = router({
 
       const page = cursor || 1;
 
-      console.log(userId)
       const {
         docs: items,
         hasNextPage,
