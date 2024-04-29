@@ -22,14 +22,14 @@ const createContext = ({
 });
 
 export type ExpressContext = inferAsyncReturnType<typeof createContext>;
-export type WebhookRequest = IncomingMessage & { rawbody: Buffer };
+export type WebhookRequest = IncomingMessage & { rawBody: Buffer };
 
 const start = async () => {
   const webhookMiddleware = bodyParser.json({
     verify: (req: WebhookRequest, _, buffer) => {
-      req.rawbody = buffer;
+      req.rawBody = buffer
     },
-  });
+  })
 
   app.post("/api/webhooks/stripe", webhookMiddleware, StripeWebhook);
 
@@ -56,6 +56,8 @@ const start = async () => {
     return;
   }
 
+  await nextApp.prepare();
+  
   app.use(
     "/api/trpc",
     trpcExpress.createExpressMiddleware({
@@ -65,7 +67,7 @@ const start = async () => {
   );
   app.get("*", (req, res) => nextHandler(req, res));
 
-  await nextApp.prepare();
+
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     payload.logger.info(
