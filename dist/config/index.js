@@ -1,7 +1,4 @@
 "use strict";
-// import frontendImg from "../../public/Frontend.png"
-// import backendImg from "../../public/backend.png"
-// import fullStackImg from "../../public/Fullstack.png"
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CATEGORIES = void 0;
 exports.CATEGORIES = [
@@ -12,17 +9,17 @@ exports.CATEGORIES = [
             {
                 name: "Front-end",
                 href: "/market",
-                // imageSrc: frontendImg,
+                imageSrc: "../../public/Frontend.png",
             },
             {
                 name: "Back-end",
                 href: "#",
-                // imageSrc: backendImg,
+                imageSrc: "../../public/backend.png",
             },
             {
                 name: "All",
                 href: "#",
-                // imageSrc: fullStackImg,
+                imageSrc: "../../public/Fullstack.png",
             },
         ],
     },
@@ -33,17 +30,17 @@ exports.CATEGORIES = [
             {
                 name: "Front-end",
                 href: "#",
-                // imageSrc: frontendImg,
+                imageSrc: "../../public/Frontend.png",
             },
             {
                 name: "Back-end",
                 href: "#",
-                // imageSrc: backendImg,
+                imageSrc: "../../public/backend.png",
             },
             {
                 name: "All",
                 href: "#",
-                // imageSrc: fullStackImg,
+                imageSrc: "../../public/Fullstack.png",
             },
         ],
     },

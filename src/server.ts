@@ -1,4 +1,3 @@
-
 import express from "express";
 import { getPayloadClient } from "./get-payload";
 import { nextApp, nextHandler } from "./next-utils";
@@ -8,6 +7,8 @@ import { inferAsyncReturnType } from "@trpc/server";
 import bodyParser from "body-parser";
 import { IncomingMessage } from "http";
 import StripeWebhook from "./webhooks";
+import nextBuild from "next/dist/build";
+import path from "path";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -20,18 +21,17 @@ const createContext = ({
   res,
 });
 
-export type ExpressContext = inferAsyncReturnType<typeof createContext>
-export type WebhookRequest = IncomingMessage & {rawbody: Buffer}
+export type ExpressContext = inferAsyncReturnType<typeof createContext>;
+export type WebhookRequest = IncomingMessage & { rawbody: Buffer };
 
 const start = async () => {
-
   const webhookMiddleware = bodyParser.json({
-    verify: (req: WebhookRequest, _, buffer ) => {
-    req.rawbody = buffer;
-    }
-  })
+    verify: (req: WebhookRequest, _, buffer) => {
+      req.rawbody = buffer;
+    },
+  });
 
-  app.post("/api/webhooks/stripe", webhookMiddleware, StripeWebhook)
+  app.post("/api/webhooks/stripe", webhookMiddleware, StripeWebhook);
 
   // Initialize Payload with the express instance
   const payload = await getPayloadClient({
@@ -45,19 +45,16 @@ const start = async () => {
 
   if (process.env.NEXT_BUILD) {
     app.listen(PORT, async () => {
-      payload.logger.info(
-        'Next.js is building for production'
-      )
+      payload.logger.info("Next.js is building for production");
 
       // @ts-expect-error
-      await nextBuild(path.join(__dirname, '../'))
+      await nextBuild(path.join(__dirname, "../"));
 
-      process.exit()
-    })
+      process.exit();
+    });
 
-    return
+    return;
   }
-
 
   app.use(
     "/api/trpc",
@@ -73,7 +70,7 @@ const start = async () => {
     console.log(`Server running on port ${PORT}`);
     payload.logger.info(
       `Next.js App URL: ${process.env.NEXT_PUBLIC_SERVER_URL}`
-    )
+    );
   });
 };
 

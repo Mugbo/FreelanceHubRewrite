@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 import { trpc } from "@/trpc/client";
 import { XCircle } from "lucide-react";
 import Image from "next/image";

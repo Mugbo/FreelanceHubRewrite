@@ -1,6 +1,3 @@
-// import frontendImg from "../../public/Frontend.png"
-// import backendImg from "../../public/backend.png"
-// import fullStackImg from "../../public/Fullstack.png"
 
 export const CATEGORIES = [
   {
@@ -10,17 +7,17 @@ export const CATEGORIES = [
       {
         name: "Front-end",
         href: "/market",
-        // imageSrc: frontendImg,
+        imageSrc: "../../public/Frontend.png",
       },
       {
         name: "Back-end",
         href: "#",
-        // imageSrc: backendImg,
+        imageSrc: "../../public/backend.png",
       },
       {
         name: "All",
         href: "#",
-        // imageSrc: fullStackImg,
+        imageSrc: "../../public/Fullstack.png",
       },
     ],
   },
@@ -31,17 +28,17 @@ export const CATEGORIES = [
       {
         name: "Front-end",
         href: "#",
-        // imageSrc: frontendImg,
+       imageSrc: "../../public/Frontend.png",
       },
       {
         name: "Back-end",
         href: "#",
-        // imageSrc: backendImg,
+        imageSrc: "../../public/backend.png",
       },
       {
         name: "All",
         href: "#",
-        // imageSrc: fullStackImg,
+        imageSrc: "../../public/Fullstack.png",
       },
     ],
   },

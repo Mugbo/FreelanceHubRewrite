@@ -1,7 +1,6 @@
 
 import Link from "next/link";
 import Cart from "./Cart";
-import { Icons } from "./Icons";
 import MaxWidthWrapper from "./maxWidthWrapper";
 import NavItems from "./NavItems";
 import { buttonVariants } from "./ui/button";
