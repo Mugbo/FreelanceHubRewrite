@@ -19,7 +19,7 @@ export const Users: CollectionConfig = {
       admin: {
         // condition: () => false,
         // condition: ({req}) => req.user.role === "admin"
-        // this allows only visible to admins
+        // // this allows only visible to admins
       },
       type: "select",
       options: [
@@ -37,6 +37,18 @@ export const Users: CollectionConfig = {
       name: "ProfilePicture",
       type: "upload",
       relationTo: "images"
+    },
+    {
+      name:"stripePayoutId",
+      type:"text",
+      access: {
+        read: () => false,
+        update: () => false,
+      },
+      admin: {
+        hidden: true,
+      },
+
     }
   
   ],

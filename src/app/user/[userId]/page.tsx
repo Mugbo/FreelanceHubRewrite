@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
+import StripeAccountSetup from "../../../components/StripeAccountSetup";
 
 interface UserPageProps {
   params: {
@@ -63,6 +64,8 @@ const Page = async ({ params }: UserPageProps) => {
     </div>
   </div>
 </div>
+{!user.stripePayoutId && <StripeAccountSetup/>}
+
 <UserWork title=""  sub={"Post History"} query={{sort: "desc", limit: 4 , userId: userId}}/>
     </MaxWidthWrapper>
   );

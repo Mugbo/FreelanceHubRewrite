@@ -1,7 +1,8 @@
 import { BeforeChangeHook } from "payload/dist/collections/config/types";
 import { CATEGORIES } from "../config";
 import { CollectionConfig } from "payload/types";
-import { User } from "../payload-types";
+import { User, Work as WorkType } from "../payload-types";
+import stripe from "../stripeClient";
 
 // const addUser: BeforeChangeHook = ({ req, data }) => {
 //   const user = req.user as User | null; 
@@ -24,7 +25,43 @@ export const Work: CollectionConfig = {
   },
   access: {},
   hooks: {
-    beforeChange: [addUser],
+    beforeChange: [addUser, async (argument) => {
+      if(argument.operation == "create"){
+        const argdata = argument.data as WorkType
+
+        const createdWork = await stripe.products.create({
+          name: argdata.title,
+          default_price_data:{
+            currency: "EUR",
+            unit_amount: Math.round(argdata.price * 100)
+          }
+        })
+
+        const Updated: WorkType = {
+          ...argdata,
+          stripeId: createdWork.id,
+          priceId: createdWork.default_price as string
+        }
+        return(Updated)
+      }
+      else if(argument.operation == "update") {
+        const argdata = argument.data as WorkType
+
+        const updateWork = await stripe.products.update(argdata.stripeId!, {
+          name: argdata.title,
+          default_price: argdata.priceId!
+        }
+        )
+        
+        const Updated: WorkType = {
+          ...argdata,
+          stripeId: updateWork.id,
+          priceId: updateWork.default_price as string
+        }
+        return(Updated)
+
+      }
+    }],
   },
   fields: [
     {

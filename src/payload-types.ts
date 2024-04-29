@@ -28,6 +28,7 @@ export interface User {
   role?: ('admin' | 'user') | null;
   biography?: string | null;
   ProfilePicture?: string | Image | null;
+  stripePayoutId?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;

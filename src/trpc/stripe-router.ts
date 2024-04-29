@@ -7,7 +7,7 @@ import type Stripe from "stripe";
 
 export const paymentsRouter = router({
   initiateSession: privateProcedure
-    .input(z.object({ workId: z.array(z.string()) }))
+    .input(z.object({ workId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const { user } = ctx;
       const { workId } = input;
@@ -52,18 +52,10 @@ export const paymentsRouter = router({
         });
       }
 
-      line_items.push({
-        price: "price_1OCeBwA19umTXGu8s4p2G3aX", // Assuming this is the priceId for the work
-        quantity: 1,
-        adjustable_quantity: {
-          enabled: false,
-        },
-      });
-
       try {
         const stripeSession = await stripe.checkout.sessions.create({
           success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${workOrder.id}`,
-          cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
+          cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/workpayment/${workId}`,
           payment_method_types: ["card"],
           mode: "payment",
           metadata: {
@@ -97,5 +89,43 @@ export const paymentsRouter = router({
 
       const [orderDetails] = workOrder;
       return { isPaid: orderDetails._isPaid };
+    }),
+
+    createStripeAccount: privateProcedure
+    .mutation(async ({ ctx }) => {
+      
+      const { user } = ctx;
+      const userId = user.id
+
+      try {
+        const account = await stripe.accounts.create({
+          type: 'express',
+          country: 'IE',
+          email: user.email,
+          capabilities: {
+            card_payments: { requested: true },
+            transfers: { requested: true },
+          },
+        });
+
+        const payloadClient = await getPayloadClient();
+
+
+        await payloadClient.update({
+          collection: 'users',
+          id: userId,
+          data: {
+            stripePayoutId: account.id
+          }
+        });
+
+        return { accountId: account.id };
+      } catch (error) {
+        console.error('Failed to create Stripe account:', error);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: 'Failed to create Stripe account'
+        });
+      }
     }),
 });

@@ -1,6 +1,6 @@
 import MaxWidthWrapper from "../../../components/maxWidthWrapper";
 import { getPayloadClient } from "../../../get-payload";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import FileViewer from "../../../components/FileViewer";
 import { Work, WorkFile } from "../../..//payload-types";
 import WorkListings from "../../..//components/WorkListings";
@@ -8,6 +8,10 @@ import Replies from "../../..//components/Replies";
 import { useState } from "react";
 import ViewReplies from "../../..//components/ViewReplies";
 import React from "react";
+import { trpc } from "@/trpc/client";
+import { getServerSideUser } from "@/lib/payload-utils";
+import { cookies } from "next/headers";
+import WorkPayment from "@/components/WorkPayment";
 
 interface WorkViewPageProps {
   params: {
@@ -21,6 +25,9 @@ interface User {
 }
 
 const Page = async ({ params }: WorkViewPageProps) => {
+  const nextCookies = cookies();
+  const { user } = await getServerSideUser(nextCookies);
+
   const { workId } = params;
 
   const payload = await getPayloadClient();
@@ -35,20 +42,22 @@ const Page = async ({ params }: WorkViewPageProps) => {
     },
   });
 
-  
-
   const [workView] = work;
-
-  // const userId = workView.user!.id
 
   let userId: string | undefined;
 
-  if (workView.user && typeof workView.user !== 'string') {
+  if (workView.user && typeof workView.user !== "string") {
     userId = workView.user.id;
   }
 
+  function checkOwnership(
+    userId: string | undefined,
+    currentUserId: string | undefined
+  ) {
+    return userId === currentUserId;
+  }
 
-
+  const isOwner = checkOwnership(userId, user?.id);
 
   function hasWorkFiles(
     workFiles: (string | WorkFile)[] | null | undefined
@@ -81,17 +90,21 @@ const Page = async ({ params }: WorkViewPageProps) => {
 
   return (
     <MaxWidthWrapper>
+      {isOwner &&
+      workView.approved !== "approved" &&
+      workView.approved !== "rejected" ? (
+        <WorkPayment workId={workId}></WorkPayment>
+      ) : null}
       <div className="relative w-full pt-5">
         <WorkListings workItem={workView} index={1} key={`workItem-${1}`} />
       </div>
       <div className="pb-3">
-      {hasWorkFiles(workView.workFiles) && WorkFilesDisplay(workView.workFiles|| [])}
+        {hasWorkFiles(workView.workFiles) &&
+          WorkFilesDisplay(workView.workFiles || [])}
       </div>
 
-       <Replies params= {{userId: userId || "", workId: workId}}>
-
-        </Replies>
-        <ViewReplies query ={{workId:workId}}></ViewReplies>
+      <Replies params={{ userId: userId || "", workId: workId }}></Replies>
+      <ViewReplies query={{ workId: workId }}></ViewReplies>
     </MaxWidthWrapper>
   );
 };
