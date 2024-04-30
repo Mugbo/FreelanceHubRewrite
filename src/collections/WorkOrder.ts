@@ -32,11 +32,10 @@ const WorkOrder: CollectionConfig = {
     }
   ],
   access: {
-    // Define your access control functions here if needed
-    read: () => true, // Example: Allow read access universally
-    create: ({ req }) => Boolean(req.user), // Example: Only logged-in users can create orders
-    update: ({ req }) => req.user && req.user.role === 'admin', // Example: Only admin users can update orders
-    delete: ({ req }) => req.user && req.user.role === 'admin', // Example: Only admin users can delete orders
+    read: () => true, 
+    create: ({ req }) => Boolean(req.user),
+    update: ({ req }) => req.user && req.user.role === 'admin', 
+    delete: ({ req }) => req.user && req.user.role === 'admin', 
   },
   admin: {
     useAsTitle: 'WorkOrders',

@@ -5,10 +5,9 @@ const Page = () => {
   return (
     <MaxWidthWrapper>
       <HomeMainbar
-        title="jhon"
-        sub="Star app is looking sweet"
-        href="/jhonson"
-        query={{ sort: "desc", limit: 10 }}
+        title="All"
+        sub="Take your pick"
+        query={{ sort: "desc", limit: 100 }}
       />
     </MaxWidthWrapper>
   );

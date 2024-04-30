@@ -7,17 +7,17 @@ export const CATEGORIES = [
       {
         name: "Front-end",
         href: "/market",
-        imageSrc: "../../public/Frontend.png",
+        imageSrc: "/../../public/Frontend.png",
       },
       {
         name: "Back-end",
         href: "#",
-        imageSrc: "../../public/backend.png",
+        imageSrc: "/../../public/backend.png",
       },
       {
         name: "All",
         href: "#",
-        imageSrc: "../../public/Fullstack.png",
+        imageSrc: "/../../public/Fullstack.png",
       },
     ],
   },
@@ -28,17 +28,17 @@ export const CATEGORIES = [
       {
         name: "Front-end",
         href: "#",
-       imageSrc: "../../public/Frontend.png",
+       imageSrc: "/../../public/Frontend.png",
       },
       {
         name: "Back-end",
         href: "#",
-        imageSrc: "../../public/backend.png",
+        imageSrc: "/../../public/backend.png",
       },
       {
         name: "All",
         href: "#",
-        imageSrc: "../../public/Fullstack.png",
+        imageSrc: "/../../public/Fullstack.png",
       },
     ],
   },

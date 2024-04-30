@@ -50,19 +50,15 @@ const Page = async ({ params }: UserPageProps) => {
         <div className="px-4 py-5 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex items-start space-x-6">
             {" "}
-            {/* Adjusted for horizontal layout */}
-            {/* Image on the left */}
-            <Image
+           {imageUrl && <Image
               src={imageUrl}
               alt="User Profile"
               width={300}
               height={300}
               className="flex-shrink-0 rounded-lg"
-            />
-            {/* Text content on the right */}
+            />}
             <div className="flex flex-col space-y-4">
               {" "}
-              {/* Adjusted for vertical layout of text */}
               <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
                 {user.email}
               </h1>
@@ -85,7 +81,7 @@ const Page = async ({ params }: UserPageProps) => {
       <UserWork
         title=""
         sub={"Post History"}
-        query={{ sort: "desc", limit: 4, userId: userId }}
+        query={{ sort: "desc", limit: 100, userId: userId }}
       />
     </MaxWidthWrapper>
   );

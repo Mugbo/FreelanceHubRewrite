@@ -47,7 +47,7 @@ export const paymentsRouter = router({
 
       if (workItem) {
         line_items.push({
-          price: workItem.priceId!,
+          price: workItem.priceId as string,
           quantity: 1,
         });
       }
@@ -71,25 +71,25 @@ export const paymentsRouter = router({
       }
     }),
 
-  checkOrderStatus: privateProcedure
-    .input(z.object({ orderId: z.string() }))
-    .query(async ({ input }) => {
-      const { orderId } = input;
+  // checkOrderStatus: privateProcedure
+  //   .input(z.object({ orderId: z.string() }))
+  //   .query(async ({ input }) => {
+  //     const { orderId } = input;
 
-      const payloadClient = await getPayloadClient();
+  //     const payloadClient = await getPayloadClient();
 
-      const { docs: workOrder } = await payloadClient.find({
-        collection: "workOrder",
-        where: { id: { equals: orderId } },
-      });
+  //     const { docs: workOrder } = await payloadClient.find({
+  //       collection: "workOrder",
+  //       where: { id: { equals: orderId } },
+  //     });
 
-      if (workOrder.length === 0) {
-        throw new TRPCError({ code: "NOT_FOUND", message: "Order not found" });
-      }
+  //     if (workOrder.length === 0) {
+  //       throw new TRPCError({ code: "NOT_FOUND", message: "Order not found" });
+  //     }
 
-      const [orderDetails] = workOrder;
-      return { isPaid: orderDetails._isPaid };
-    }),
+  //     const [orderDetails] = workOrder;
+  //     return { isPaid: orderDetails._isPaid };
+  //   }),
 
   createStripeAccount: privateProcedure.mutation(async ({ ctx }) => {
     const { user } = ctx;
@@ -128,13 +128,9 @@ export const paymentsRouter = router({
   generateStripeLoginLink: privateProcedure
     .input(z.object({ accountId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      // const  accountId  = ctx.user.stripePayoutId as string;
       const { accountId } = input;
       try {
         const loginLink = await stripe.accounts.createLoginLink(accountId);
-        console.log("***");
-        console.log(loginLink);
-        console.log("***");
         return { url: loginLink.url };
       } catch (error) {
         console.error("Failed to generate Stripe login link:", error);

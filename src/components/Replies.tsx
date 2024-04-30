@@ -17,7 +17,7 @@ interface CreateReplyProps {
 
 const Replies = ({params}: CreateReplyProps) => {
     const { userId, workId } = params;
-    const [showForm, setShowForm] = useState(false); // State to toggle the form
+    const [showForm, setShowForm] = useState(false);
     const utils = trpc.useUtils();
 
     const {

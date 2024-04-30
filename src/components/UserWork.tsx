@@ -22,7 +22,7 @@ interface UserWorkProps {
 
 }
 
-const FALLBACK_LIMIT = 4;
+const FALLBACK_LIMIT = 100;
 
 const UserWork = (props: UserWorkProps) => {
 

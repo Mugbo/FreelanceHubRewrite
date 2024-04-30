@@ -1,6 +1,5 @@
 
 import Link from "next/link";
-import Cart from "./Cart";
 import MaxWidthWrapper from "./maxWidthWrapper";
 import NavItems from "./NavItems";
 import { buttonVariants } from "./ui/button";
@@ -70,7 +69,6 @@ const Navbar = async() => {
                     </div>
                   )}
                   <div className="ml-4 flow-root lg:ml-6">
-                    <Cart/>
                   </div>
                 </div>
               </div>

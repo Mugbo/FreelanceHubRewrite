@@ -15,7 +15,7 @@ const StripeWebhook = async (req: express.Request, res: express.Response) => {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET || ""
+      process.env.STRIPE_WEBHOOK_KEY || ""
     );
   } catch (err) {
     return res
@@ -24,6 +24,8 @@ const StripeWebhook = async (req: express.Request, res: express.Response) => {
         `Webhook Error: ${err instanceof Error ? err.message : "Unknown Error"}`
       );
   }
+
+  console.log("@@@@@@@@@@@@@@@@@@@")
 
   const session = event.data.object as Stripe.Checkout.Session;
 
@@ -77,5 +79,8 @@ const StripeWebhook = async (req: express.Request, res: express.Response) => {
       },
     });
   }
+
+  return res.status(200).send()
+
 };
 export default StripeWebhook;

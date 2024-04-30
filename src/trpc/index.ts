@@ -46,11 +46,11 @@ export const appRouter = router({
         nextPage,
       } = await payload.find({
         collection: "work",
-        where: {
-          // approved: {
-          //   equals: "approved",
-          // },
-        },
+        // where: {
+        //   approved: {
+        //     equals: "approved",
+        //   },
+        // },
         sort,
         depth: 1,
         limit,

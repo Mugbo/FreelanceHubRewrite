@@ -15,23 +15,22 @@ import { trpc } from "../../../trpc/client";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
-import Logo from "../../../../public/Screenshot.ico"
+import Logo from "../../../../public/Screenshot.ico";
 import Image from "next/image";
-
 
 const Page = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const isSeller = searchParams.get("as") == "seller";
+  // const isSeller = searchParams.get("as") == "seller";
   const origin = searchParams.get("origin");
 
-  const continueAsSeller = () => {
-    router.push("?as=seller");
-  };
+  // const continueAsSeller = () => {
+  //   router.push("?as=seller");
+  // };
 
-  const continueAsBuyer = () => {
-    router.replace("/sign-in", undefined);
-  };
+  // const continueAsBuyer = () => {
+  //   router.replace("/sign-in", undefined);
+  // };
 
   const {
     register,
@@ -49,11 +48,6 @@ const Page = () => {
 
       if (origin) {
         router.push(`/${origin}`);
-        return;
-      }
-
-      if (isSeller) {
-        router.push(`/sell`);
         return;
       }
 
@@ -75,12 +69,16 @@ const Page = () => {
       <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
         <div className="mx- auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col items-center space-y-2 text-center">
-          <div className="ml-4 flex lg:ml-0">
-                <Link href="/">
-                  <Image src ={Logo} alt = "FreelaneHub" className="h-13 w-13 rounded-lg"></Image>
-                </Link>
-              </div>
-            <h1 className="text-2xl font-bold">Sign in to your {isSeller? 'seller' : '' } {''}account</h1>
+            <div className="ml-4 flex lg:ml-0">
+              <Link href="/">
+                <Image
+                  src={Logo}
+                  alt="FreelaneHub"
+                  className="h-13 w-13 rounded-lg"
+                ></Image>
+              </Link>
+            </div>
+            <h1 className="text-2xl font-bold">Sign in to your account</h1>
             <Link
               className={buttonVariants({
                 variant: "link",
@@ -138,22 +136,7 @@ const Page = () => {
               >
                 <span className="w-full border-t" />
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  or
-                </span>
-              </div>
             </div>
-            {isSeller ? (
-              <Button onClick={continueAsBuyer} variant="secondary">
-                Continue as customer
-              </Button>
-            ) : (
-              <Button onClick={continueAsSeller} variant="secondary">
-                {" "}
-                Continue as seller
-              </Button>
-            )}
           </div>
         </div>
       </div>
