@@ -119,21 +119,32 @@ exports.paymentsRouter = (0, trpc_1.router)({
             }
         });
     }); }),
-    // checkOrderStatus: privateProcedure
-    //   .input(z.object({ orderId: z.string() }))
-    //   .query(async ({ input }) => {
-    //     const { orderId } = input;
-    //     const payloadClient = await getPayloadClient();
-    //     const { docs: workOrder } = await payloadClient.find({
-    //       collection: "workOrder",
-    //       where: { id: { equals: orderId } },
-    //     });
-    //     if (workOrder.length === 0) {
-    //       throw new TRPCError({ code: "NOT_FOUND", message: "Order not found" });
-    //     }
-    //     const [orderDetails] = workOrder;
-    //     return { isPaid: orderDetails._isPaid };
-    //   }),
+    checkOrderStatus: trpc_1.privateProcedure
+        .input(zod_1.z.object({ orderId: zod_1.z.string() }))
+        .query(function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+        var orderId, payloadClient, workOrder, orderDetails;
+        var input = _b.input;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    orderId = input.orderId;
+                    return [4 /*yield*/, (0, get_payload_1.getPayloadClient)()];
+                case 1:
+                    payloadClient = _c.sent();
+                    return [4 /*yield*/, payloadClient.find({
+                            collection: "workOrder",
+                            where: { id: { equals: orderId } },
+                        })];
+                case 2:
+                    workOrder = (_c.sent()).docs;
+                    if (workOrder.length === 0) {
+                        throw new server_1.TRPCError({ code: "NOT_FOUND", message: "Order not found" });
+                    }
+                    orderDetails = workOrder[0];
+                    return [2 /*return*/, { isPaid: orderDetails._isPaid }];
+            }
+        });
+    }); }),
     createStripeAccount: trpc_1.privateProcedure.mutation(function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
         var user, userId, account, payloadClient, error_2;
         var ctx = _b.ctx;

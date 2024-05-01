@@ -9,13 +9,15 @@ import IsPaid from "@/components/IsPaid";
 
 interface OrderCompleteProps {
   params: {
-    OrderId: string;
+    orderId: string;
   };
 }
 
 const OrderComplete = async ({ params }: OrderCompleteProps) => {
 
-  const OrderId = params.OrderId;
+  // const OrderId = params.OrderId;
+  const { orderId } = params;
+
 
   const payload = await getPayloadClient();
 
@@ -23,7 +25,7 @@ const OrderComplete = async ({ params }: OrderCompleteProps) => {
     collection: "workOrder",
     where: {
       id:{
-        equals: OrderId
+        equals: orderId
       }
     },
     depth: 1,
@@ -31,14 +33,20 @@ const OrderComplete = async ({ params }: OrderCompleteProps) => {
   });
   const [workOrder] = workOrderArray;
 
-const workObject = workOrder.work as Work;
+  if (workOrderArray.length === 0) {
+    return <div>Work Order not found</div>;  
+  }
 
+const workObject = workOrder.work ;
 
+if (!workOrder || !workOrder.work) {
+  return <div>Work information is missing</div>; 
+}
   const { docs: work } = await payload.find({
     collection: "work",
     where: {
       id: {
-        equals: workObject.id,
+        equals: workObject,
       },
     },
   });
@@ -58,7 +66,7 @@ const workObject = workOrder.work as Work;
         <div className="text-gray-600 mt-4">
           It will now show up in the marketplace for users.
         </div>
-        <IsPaid orderId={OrderId} isPaid={workOrder._isPaid}></IsPaid>
+        <IsPaid orderId={orderId} isPaid={workOrder._isPaid}></IsPaid>
       </div>
     </MaxWidthWrapper>
   );
