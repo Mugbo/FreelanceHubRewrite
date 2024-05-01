@@ -30,6 +30,7 @@ export interface User {
   ProfilePicture?: string | Image | null;
   stripePayoutId?: string | null;
   onboardedStripe?: ('unverified' | 'verified') | null;
+  category?: ('front' | 'back' | 'full' | 'unspecified') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
