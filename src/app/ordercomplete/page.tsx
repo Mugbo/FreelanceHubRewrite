@@ -2,6 +2,9 @@ import MaxWidthWrapper from "@/components/maxWidthWrapper";
 import { getPayloadClient } from "../../get-payload";
 import { string } from "zod";
 import { Work } from "@/payload-types";
+import { trpc } from "@/trpc/client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface OrderCompleteProps {
   params: {
@@ -10,6 +13,8 @@ interface OrderCompleteProps {
 }
 
 const OrderComplete = async ({ params }: OrderCompleteProps) => {
+  const router = useRouter()
+
   const OrderId = params.OrderId;
 
   const payload = await getPayloadClient();
@@ -38,6 +43,21 @@ const workObject = workOrder.work as Work;
     },
   });
   const [workpaidfor] = work;
+
+  const { data } = trpc.pay.checkOrderStatus.useQuery(
+    { orderId: workpaidfor.id },
+    {
+      enabled: workOrder._isPaid === false,
+      refetchInterval: (data) =>
+        data?.isPaid ? false : 1000,
+    }
+  )
+
+
+
+  useEffect(() => {
+    if (data?.isPaid) router.refresh()
+  }, [data?.isPaid, router])
 
   return (
     <MaxWidthWrapper>
