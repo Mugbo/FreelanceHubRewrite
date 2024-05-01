@@ -6,7 +6,7 @@ export const workRouter = router({
   createWorkPosting: privateProcedure
     .input(PostDataValidator)
     .mutation(async ({ input, ctx }) => {
-      const { title, description, workFiles, price} = input;
+      const { title, description, price, category } = input;
       const { user } = ctx;
 
       const payload = await getPayloadClient();
@@ -16,8 +16,8 @@ export const workRouter = router({
         data: {
           title,
           description,
-          workFiles,
           user: user.id,
+          category,
           approved: "unverified",
           price: price,
         },

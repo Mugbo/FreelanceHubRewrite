@@ -22,10 +22,11 @@ export const appRouter = router({
         limit: z.number().min(1).max(100),
         cursor: z.number().nullish(),
         query: QueryValidator,
+        type: z.string(),
       })
     )
     .query(async ({ input }) => {
-      const { query, cursor } = input;
+      const { query, cursor, type } = input;
       const { sort, limit, ...queryOpts } = query;
 
       const payload = await getPayloadClient();
@@ -39,30 +40,140 @@ export const appRouter = router({
       });
 
       const page = cursor || 1;
-
-      const {
-        docs: items,
-        hasNextPage,
-        nextPage,
-      } = await payload.find({
-        collection: "work",
-        // where: {
-        //   approved: {
-        //     equals: "approved",
-        //   },
-        // },
-        sort,
-        depth: 1,
-        limit,
-        page,
-      });
-      return {
-        items,
-        nextPage: hasNextPage ? nextPage : null,
-      };
+      if (type === "none") {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "work",
+          // where: {
+          //   approved: {
+          //     equals: "approved",
+          //   },
+          // },
+          where: {
+            category: {
+              equals: "unspecified",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      } else if (type === "full") {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "work",
+          // where: {
+          //   approved: {
+          //     equals: "approved",
+          //   },
+          // },
+          where: {
+            category: {
+              equals: "full",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      } else if (type === "front") {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "work",
+          // where: {
+          //   approved: {
+          //     equals: "approved",
+          //   },
+          // },
+          where: {
+            category: {
+              equals: "front",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      } else if (type === "back") {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "work",
+          // where: {
+          //   approved: {
+          //     equals: "approved",
+          //   },
+          // },
+          where: {
+            category: {
+              equals: "back",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      } else {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "work",
+          // where: {
+          //   approved: {
+          //     equals: "approved",
+          //   },
+          // },
+          where: {
+            category: {
+              equals: "unspecified",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      }
     }),
 
-    getAllWorkFromUser: publicProcedure
+  getAllWorkFromUser: publicProcedure
     .input(
       z.object({
         limit: z.number().min(1).max(100),
@@ -71,7 +182,7 @@ export const appRouter = router({
       })
     )
     .query(async ({ input }) => {
-      const { query, cursor} = input;
+      const { query, cursor } = input;
       const { sort, limit, userId, ...queryOpts } = query;
 
       const payload = await getPayloadClient();
@@ -93,9 +204,9 @@ export const appRouter = router({
       } = await payload.find({
         collection: "work",
         where: {
-          user:{
-            equals: userId
-          }
+          user: {
+            equals: userId,
+          },
         },
         sort,
         depth: 1,
@@ -107,8 +218,6 @@ export const appRouter = router({
         nextPage: hasNextPage ? nextPage : null,
       };
     }),
-
-  
 });
 
 export type AppRouter = typeof appRouter;

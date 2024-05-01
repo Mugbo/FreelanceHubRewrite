@@ -79,9 +79,9 @@ export interface Work {
   title: string;
   description?: string | null;
   price: number;
-  category?: ('Find Work' | 'Find Devleopers') | null;
   workFiles?: (string | WorkFile)[] | null;
   approved?: ('unverified' | 'approved' | 'rejected') | null;
+  category?: ('front' | 'back' | 'full' | 'unspecified') | null;
   priceId?: string | null;
   stripeId?: string | null;
   updatedAt: string;

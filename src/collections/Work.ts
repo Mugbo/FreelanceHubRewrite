@@ -1,6 +1,6 @@
 import { BeforeChangeHook } from "payload/dist/collections/config/types";
 import { CATEGORIES } from "../config";
-import { CollectionConfig } from "payload/types";
+import { Access, CollectionConfig } from "payload/types";
 import { User, Work as WorkType } from "../payload-types";
 import stripe from "../stripeClient";
 
@@ -9,6 +9,18 @@ import stripe from "../stripeClient";
 
 //   return{...data, user: user?.id,}
 // };
+
+const CanCRUD: Access = async ({ req }) => {
+  const user = req.user as User | null
+
+  if (!user) return false
+  if (user?.role === 'admin') return true
+  return {
+    user: {
+      equals: user?.id,
+    },
+  }
+}
 
 const addUser: BeforeChangeHook = ({ req, data }) => {
   const userId = req.user?.id|| data.user;
@@ -88,13 +100,6 @@ export const Work: CollectionConfig = {
       required: true,
     },
     {
-      name: "category",
-      label: "category",
-      type: "select",
-      options: CATEGORIES.map(({ label, value }) => ({ label, value })),
-      required: false,
-    },
-    {
       name: "workFiles",
       label: "Work Files",
       type: "relationship",
@@ -126,6 +131,30 @@ export const Work: CollectionConfig = {
         read: ({ req }) => req.user.role === "admin",
         update: ({ req }) => req.user.role === "admin",
       },
+    },
+    {
+      name: "category",
+      label: "category",
+      type: "select",
+      defaultValue: "unspecified",
+      options: [
+        {
+          label: "Front End",
+          value: "front",
+        },
+        {
+          label: "Back End",
+          value: "back",
+        },
+        {
+          label: "Full stack",
+          value: "full",
+        },
+        {
+          label: "unspecified",
+          value: "unspecified",
+        },
+      ],
     },
     {
       name: "priceId",

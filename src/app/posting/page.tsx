@@ -46,18 +46,14 @@ const FormPage = ({ params }: CreateWorkPostProps) => {
   const onSubmit = ({
     title,
     description,
-    workFiles,
     price,
+    category,
   }: TPostDataValidator) => {
-    const filesArray = workFiles
-      ? Array.from(workFiles).map((file) => (file as File).name)
-      : [];
-
     mutate({
       title,
       description,
-      workFiles: filesArray,
       price,
+      category,
     });
   };
 
@@ -92,22 +88,21 @@ const FormPage = ({ params }: CreateWorkPostProps) => {
         </div>
       </div>
 
-      <input
-        type="file"
-        multiple
-        onChange={(event) => {
-          const files = event.target.files;
-          if (files && files.length > 0) {
-            const fileNames = Array.from(files).map(
-              (file) => (file as File).name
-            );
-            setValue("workFiles", fileNames, { shouldValidate: true });
-          } else {
-            setValue("workFiles", [], { shouldValidate: true });
-          }
-        }}
-        className="file:bg-blue-50 file:border file:border-blue-500 file:px-4 file:py-2 file:rounded-md file:text-blue-700 file:cursor-pointer hover:file:bg-blue-100"
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          Category
+        </label>
+        <select
+          {...register("category")}
+          className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+          defaultValue={"unspecified"}
+        >
+          <option value="front">Front End</option>
+          <option value="back">Back End</option>
+          <option value="full">Full stack</option>
+          <option value="unspecified">Unspecified</option>
+        </select>
+      </div>
 
       <button
         type="submit"

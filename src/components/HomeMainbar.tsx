@@ -18,19 +18,20 @@ interface HomeMainBarProps {
   href?: string;
   query: TQueryValidator;
   limit?: number;
-
+  type: string;
 }
 
 const FALLBACK_LIMIT = 4;
 
 const HomeMainbar = (props: HomeMainBarProps) => {
 
-  const { title, sub, href, query} = props;
+  const { title, sub, href, query, type} = props;
 
   const { data: queryResults } = trpc.getAllWorkForMarketplace.useInfiniteQuery(
     {
       limit: query.limit ?? FALLBACK_LIMIT,
       query,
+      type,
     },
     { getNextPageParam: (lastPage) => lastPage.nextPage }
   );

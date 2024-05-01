@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Reply, Work } from "../payload-types";
+import { Reply, User, Work } from "../payload-types";
 import { Skeleton } from "./ui/skeleton";
 import Link from "next/link";
 import { ArrowDown, ArrowUp } from "lucide-react";
@@ -154,6 +154,9 @@ const ReplyListing = ({ replyItem, index }: ReplyListingProps) => {
     return <WorkPlaceHolder />;
   }
 
+  const user = (replyItem?.user as User)?.id;
+  const userId = user as string
+
   if (isVisible && replyItem) {
     return (
       <div className="p-4 rounded shadow-md border border-black flex items-center justify-between mb-3 space-x-4 break-words">
@@ -179,7 +182,7 @@ const ReplyListing = ({ replyItem, index }: ReplyListingProps) => {
           </div>
         </div>
         <div className="flex-grow pl-5">
-          <Link href={`/workview/${replyItem.id}`} className="hover:underline">
+          <Link href={`/user/${userId}`} className="hover:underline">
             <h3 className="font-semibold text-lg text-red-900 py-1 mb-2">
               {replyItem.title}
             </h3>

@@ -5,7 +5,7 @@ const Page = () =>{
     return(
 
     <MaxWidthWrapper>
-      <HomeMainbar title="newest" sub="Help others and earn simultaneously" query={{sort: "desc"}} limit={20}/>
+      <HomeMainbar title="newest" sub="Help others and earn simultaneously" query={{sort: "desc"}} limit={20} type="none"/>
       
       </MaxWidthWrapper>
     )

@@ -5,8 +5,17 @@ export const PostDataValidator = z.object({
   description: z
     .string()
     .max(3000, "Description must be at most 3000 characters long"),
-  workFiles: z.any(),
   price: z.number(),
+  category: z
+    .union([
+      z.literal("front"),
+      z.literal("back"),
+      z.literal("full"),
+      z.literal("unspecified"),
+      z.null(),
+      z.undefined(),
+    ])
+    .default("unspecified"),
 });
 
 export type TPostDataValidator = z.infer<typeof PostDataValidator>;

@@ -1,7 +1,9 @@
 import HomeMainbar from "@/components/HomeMainbar";
 import MaxWidthWrapper from "@/components/maxWidthWrapper";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { getServerSideUser } from "@/lib/payload-utils";
 import { ArrowDownToLineIcon, CheckCircle, Leaf } from "lucide-react";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
 const perks = [
@@ -22,7 +24,9 @@ const perks = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const nextCookies = cookies();
+  const { user } = await getServerSideUser(nextCookies);
   return (
     <>
       <MaxWidthWrapper>
@@ -38,17 +42,23 @@ export default function Home() {
             <Link href="/market" className={buttonVariants()}>
               View the market
             </Link>
-            <Link href="/posting" className={buttonVariants()}>
+            {user && <Link href="/posting" className={buttonVariants()}>
               Create a post
-            </Link>
+            </Link>}
           </div>
           <div className="mt-6">
-          <Button variant="ghost">
+            <Button variant="ghost">
               Expert development at your fingertips &rarr;
             </Button>
-            </div>
+          </div>
         </div>
-        <HomeMainbar title="newest" sub="Help others and earn simultaneously" href="/work" query={{sort: "desc", limit: 4}}/>
+        <HomeMainbar
+          title="newest"
+          sub="Help others and earn simultaneously"
+          href="/work"
+          query={{ sort: "desc", limit: 4 }}
+          type="none"
+        />
       </MaxWidthWrapper>
 
       <section className="'border-t border-gray-200 bg-gray-50">
