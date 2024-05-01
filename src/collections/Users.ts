@@ -67,7 +67,31 @@ export const Users: CollectionConfig = {
       admin: {
         hidden: true,
       },
-    }
+    },
+    {
+      name: "category",
+      label: "category",
+      type: "select",
+      defaultValue: "unspecified",
+      options: [
+        {
+          label: "Front End",
+          value: "front",
+        },
+        {
+          label: "Back End",
+          value: "back",
+        },
+        {
+          label: "Full stack",
+          value: "full",
+        },
+        {
+          label: "unspecified",
+          value: "unspecified",
+        },
+      ],
+    },
   
   ],
 };

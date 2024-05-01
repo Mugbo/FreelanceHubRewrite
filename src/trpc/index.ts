@@ -173,6 +173,138 @@ export const appRouter = router({
       }
     }),
 
+    getAllUsersForMarketplace: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100),
+        cursor: z.number().nullish(),
+        query: QueryValidator,
+        type: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const { query, cursor, type } = input;
+      const { sort, limit, ...queryOpts } = query;
+
+      const payload = await getPayloadClient();
+
+      const parsedQerOpts: Record<string, { equals: string }> = {};
+
+      Object.entries(queryOpts).forEach(([key, value]) => {
+        parsedQerOpts[key] = {
+          equals: value,
+        };
+      });
+
+      const page = cursor || 1;
+      if (type === "none") {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "users",
+          where: {
+            category: {
+              equals: "unspecified",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      } else if (type === "full") {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "users",
+          where: {
+            category: {
+              equals: "full",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      } else if (type === "front") {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "users",
+          where: {
+            category: {
+              equals: "users",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      } else if (type === "back") {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "users",
+          where: {
+            category: {
+              equals: "back",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      } else {
+        const {
+          docs: items,
+          hasNextPage,
+          nextPage,
+        } = await payload.find({
+          collection: "users",
+          where: {
+            category: {
+              equals: "unspecified",
+            },
+          },
+          sort,
+          depth: 1,
+          limit,
+          page,
+        });
+        return {
+          items,
+          nextPage: hasNextPage ? nextPage : null,
+        };
+      }
+    }),
+
   getAllWorkFromUser: publicProcedure
     .input(
       z.object({
