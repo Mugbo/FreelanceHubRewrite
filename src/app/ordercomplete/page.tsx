@@ -5,6 +5,7 @@ import { Work } from "@/payload-types";
 import { trpc } from "@/trpc/client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import IsPaid from "@/components/IsPaid";
 
 interface OrderCompleteProps {
   params: {
@@ -13,7 +14,6 @@ interface OrderCompleteProps {
 }
 
 const OrderComplete = async ({ params }: OrderCompleteProps) => {
-  const router = useRouter()
 
   const OrderId = params.OrderId;
 
@@ -22,9 +22,9 @@ const OrderComplete = async ({ params }: OrderCompleteProps) => {
   const { docs: workOrderArray } = await payload.find({
     collection: "workOrder",
     where: {
-      // approved: {
-      //   equals: "approved",
-      // },
+      id:{
+        equals: OrderId
+      }
     },
     depth: 1,
     limit: 1,
@@ -44,20 +44,7 @@ const workObject = workOrder.work as Work;
   });
   const [workpaidfor] = work;
 
-  const { data } = trpc.pay.checkOrderStatus.useQuery(
-    { orderId: workpaidfor.id },
-    {
-      enabled: workOrder._isPaid === false,
-      refetchInterval: (data) =>
-        data?.isPaid ? false : 1000,
-    }
-  )
 
-
-
-  useEffect(() => {
-    if (data?.isPaid) router.refresh()
-  }, [data?.isPaid, router])
 
   return (
     <MaxWidthWrapper>
@@ -71,12 +58,7 @@ const workObject = workOrder.work as Work;
         <div className="text-gray-600 mt-4">
           It will now show up in the marketplace for users.
         </div>
-        <div className="text-gray-500 mt-2">
-          Approval status now:{" "}
-          <span className="text-gray-900 font-medium">
-            {workpaidfor.approved}
-          </span>
-        </div>
+        <IsPaid orderId={OrderId} isPaid={workOrder._isPaid}></IsPaid>
       </div>
     </MaxWidthWrapper>
   );

@@ -51,12 +51,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Work = void 0;
-var config_1 = require("../config");
 var stripeClient_1 = __importDefault(require("../stripeClient"));
 // const addUser: BeforeChangeHook = ({ req, data }) => {
 //   const user = req.user as User | null; 
 //   return{...data, user: user?.id,}
 // };
+var CanCRUD = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var user;
+    var req = _b.req;
+    return __generator(this, function (_c) {
+        user = req.user;
+        if (!user)
+            return [2 /*return*/, false];
+        if ((user === null || user === void 0 ? void 0 : user.role) === 'admin')
+            return [2 /*return*/, true];
+        return [2 /*return*/, {
+                user: {
+                    equals: user === null || user === void 0 ? void 0 : user.id,
+                },
+            }];
+    });
+}); };
 var addUser = function (_a) {
     var _b;
     var req = _a.req, data = _a.data;
@@ -132,16 +147,6 @@ exports.Work = {
             required: true,
         },
         {
-            name: "category",
-            label: "category",
-            type: "select",
-            options: config_1.CATEGORIES.map(function (_a) {
-                var label = _a.label, value = _a.value;
-                return ({ label: label, value: value });
-            }),
-            required: false,
-        },
-        {
             name: "workFiles",
             label: "Work Files",
             type: "relationship",
@@ -182,6 +187,30 @@ exports.Work = {
                     return req.user.role === "admin";
                 },
             },
+        },
+        {
+            name: "category",
+            label: "category",
+            type: "select",
+            defaultValue: "unspecified",
+            options: [
+                {
+                    label: "Front End",
+                    value: "front",
+                },
+                {
+                    label: "Back End",
+                    value: "back",
+                },
+                {
+                    label: "Full stack",
+                    value: "full",
+                },
+                {
+                    label: "unspecified",
+                    value: "unspecified",
+                },
+            ],
         },
         {
             name: "priceId",

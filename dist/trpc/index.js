@@ -70,18 +70,19 @@ exports.appRouter = (0, trpc_1.router)({
         limit: zod_1.z.number().min(1).max(100),
         cursor: zod_1.z.number().nullish(),
         query: query_validator_1.QueryValidator,
+        type: zod_1.z.string(),
     }))
         .query(function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
-        var query, cursor, sort, limit, queryOpts, payload, parsedQerOpts, page, _c, items, hasNextPage, nextPage;
+        var query, cursor, type, sort, limit, queryOpts, payload, parsedQerOpts, page, _c, items, hasNextPage, nextPage, _d, items, hasNextPage, nextPage, _e, items, hasNextPage, nextPage, _f, items, hasNextPage, nextPage, _g, items, hasNextPage, nextPage;
         var input = _b.input;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        return __generator(this, function (_h) {
+            switch (_h.label) {
                 case 0:
-                    query = input.query, cursor = input.cursor;
+                    query = input.query, cursor = input.cursor, type = input.type;
                     sort = query.sort, limit = query.limit, queryOpts = __rest(query, ["sort", "limit"]);
                     return [4 /*yield*/, (0, get_payload_1.getPayloadClient)()];
                 case 1:
-                    payload = _d.sent();
+                    payload = _h.sent();
                     parsedQerOpts = {};
                     Object.entries(queryOpts).forEach(function (_a) {
                         var key = _a[0], value = _a[1];
@@ -90,12 +91,18 @@ exports.appRouter = (0, trpc_1.router)({
                         };
                     });
                     page = cursor || 1;
+                    if (!(type === "none")) return [3 /*break*/, 3];
                     return [4 /*yield*/, payload.find({
                             collection: "work",
-                            where: {
-                            // approved: {
-                            //   equals: "approved",
+                            // where: {
+                            //   approved: {
+                            //     equals: "approved",
+                            //   },
                             // },
+                            where: {
+                                category: {
+                                    equals: "unspecified",
+                                },
                             },
                             sort: sort,
                             depth: 1,
@@ -103,7 +110,231 @@ exports.appRouter = (0, trpc_1.router)({
                             page: page,
                         })];
                 case 2:
-                    _c = _d.sent(), items = _c.docs, hasNextPage = _c.hasNextPage, nextPage = _c.nextPage;
+                    _c = _h.sent(), items = _c.docs, hasNextPage = _c.hasNextPage, nextPage = _c.nextPage;
+                    return [2 /*return*/, {
+                            items: items,
+                            nextPage: hasNextPage ? nextPage : null,
+                        }];
+                case 3:
+                    if (!(type === "full")) return [3 /*break*/, 5];
+                    return [4 /*yield*/, payload.find({
+                            collection: "work",
+                            // where: {
+                            //   approved: {
+                            //     equals: "approved",
+                            //   },
+                            // },
+                            where: {
+                                category: {
+                                    equals: "full",
+                                },
+                            },
+                            sort: sort,
+                            depth: 1,
+                            limit: limit,
+                            page: page,
+                        })];
+                case 4:
+                    _d = _h.sent(), items = _d.docs, hasNextPage = _d.hasNextPage, nextPage = _d.nextPage;
+                    return [2 /*return*/, {
+                            items: items,
+                            nextPage: hasNextPage ? nextPage : null,
+                        }];
+                case 5:
+                    if (!(type === "front")) return [3 /*break*/, 7];
+                    return [4 /*yield*/, payload.find({
+                            collection: "work",
+                            // where: {
+                            //   approved: {
+                            //     equals: "approved",
+                            //   },
+                            // },
+                            where: {
+                                category: {
+                                    equals: "front",
+                                },
+                            },
+                            sort: sort,
+                            depth: 1,
+                            limit: limit,
+                            page: page,
+                        })];
+                case 6:
+                    _e = _h.sent(), items = _e.docs, hasNextPage = _e.hasNextPage, nextPage = _e.nextPage;
+                    return [2 /*return*/, {
+                            items: items,
+                            nextPage: hasNextPage ? nextPage : null,
+                        }];
+                case 7:
+                    if (!(type === "back")) return [3 /*break*/, 9];
+                    return [4 /*yield*/, payload.find({
+                            collection: "work",
+                            // where: {
+                            //   approved: {
+                            //     equals: "approved",
+                            //   },
+                            // },
+                            where: {
+                                category: {
+                                    equals: "back",
+                                },
+                            },
+                            sort: sort,
+                            depth: 1,
+                            limit: limit,
+                            page: page,
+                        })];
+                case 8:
+                    _f = _h.sent(), items = _f.docs, hasNextPage = _f.hasNextPage, nextPage = _f.nextPage;
+                    return [2 /*return*/, {
+                            items: items,
+                            nextPage: hasNextPage ? nextPage : null,
+                        }];
+                case 9: return [4 /*yield*/, payload.find({
+                        collection: "work",
+                        // where: {
+                        //   approved: {
+                        //     equals: "approved",
+                        //   },
+                        // },
+                        where: {
+                            category: {
+                                equals: "unspecified",
+                            },
+                        },
+                        sort: sort,
+                        depth: 1,
+                        limit: limit,
+                        page: page,
+                    })];
+                case 10:
+                    _g = _h.sent(), items = _g.docs, hasNextPage = _g.hasNextPage, nextPage = _g.nextPage;
+                    return [2 /*return*/, {
+                            items: items,
+                            nextPage: hasNextPage ? nextPage : null,
+                        }];
+            }
+        });
+    }); }),
+    getAllUsersForMarketplace: trpc_1.publicProcedure
+        .input(zod_1.z.object({
+        limit: zod_1.z.number().min(1).max(100),
+        cursor: zod_1.z.number().nullish(),
+        query: query_validator_1.QueryValidator,
+        type: zod_1.z.string(),
+    }))
+        .query(function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+        var query, cursor, type, sort, limit, queryOpts, payload, parsedQerOpts, page, _c, items, hasNextPage, nextPage, _d, items, hasNextPage, nextPage, _e, items, hasNextPage, nextPage, _f, items, hasNextPage, nextPage, _g, items, hasNextPage, nextPage;
+        var input = _b.input;
+        return __generator(this, function (_h) {
+            switch (_h.label) {
+                case 0:
+                    query = input.query, cursor = input.cursor, type = input.type;
+                    sort = query.sort, limit = query.limit, queryOpts = __rest(query, ["sort", "limit"]);
+                    return [4 /*yield*/, (0, get_payload_1.getPayloadClient)()];
+                case 1:
+                    payload = _h.sent();
+                    parsedQerOpts = {};
+                    Object.entries(queryOpts).forEach(function (_a) {
+                        var key = _a[0], value = _a[1];
+                        parsedQerOpts[key] = {
+                            equals: value,
+                        };
+                    });
+                    page = cursor || 1;
+                    if (!(type === "none")) return [3 /*break*/, 3];
+                    return [4 /*yield*/, payload.find({
+                            collection: "users",
+                            where: {
+                                category: {
+                                    equals: "unspecified",
+                                },
+                            },
+                            sort: sort,
+                            depth: 1,
+                            limit: limit,
+                            page: page,
+                        })];
+                case 2:
+                    _c = _h.sent(), items = _c.docs, hasNextPage = _c.hasNextPage, nextPage = _c.nextPage;
+                    return [2 /*return*/, {
+                            items: items,
+                            nextPage: hasNextPage ? nextPage : null,
+                        }];
+                case 3:
+                    if (!(type === "full")) return [3 /*break*/, 5];
+                    return [4 /*yield*/, payload.find({
+                            collection: "users",
+                            where: {
+                                category: {
+                                    equals: "full",
+                                },
+                            },
+                            sort: sort,
+                            depth: 1,
+                            limit: limit,
+                            page: page,
+                        })];
+                case 4:
+                    _d = _h.sent(), items = _d.docs, hasNextPage = _d.hasNextPage, nextPage = _d.nextPage;
+                    return [2 /*return*/, {
+                            items: items,
+                            nextPage: hasNextPage ? nextPage : null,
+                        }];
+                case 5:
+                    if (!(type === "front")) return [3 /*break*/, 7];
+                    return [4 /*yield*/, payload.find({
+                            collection: "users",
+                            where: {
+                                category: {
+                                    equals: "users",
+                                },
+                            },
+                            sort: sort,
+                            depth: 1,
+                            limit: limit,
+                            page: page,
+                        })];
+                case 6:
+                    _e = _h.sent(), items = _e.docs, hasNextPage = _e.hasNextPage, nextPage = _e.nextPage;
+                    return [2 /*return*/, {
+                            items: items,
+                            nextPage: hasNextPage ? nextPage : null,
+                        }];
+                case 7:
+                    if (!(type === "back")) return [3 /*break*/, 9];
+                    return [4 /*yield*/, payload.find({
+                            collection: "users",
+                            where: {
+                                category: {
+                                    equals: "back",
+                                },
+                            },
+                            sort: sort,
+                            depth: 1,
+                            limit: limit,
+                            page: page,
+                        })];
+                case 8:
+                    _f = _h.sent(), items = _f.docs, hasNextPage = _f.hasNextPage, nextPage = _f.nextPage;
+                    return [2 /*return*/, {
+                            items: items,
+                            nextPage: hasNextPage ? nextPage : null,
+                        }];
+                case 9: return [4 /*yield*/, payload.find({
+                        collection: "users",
+                        where: {
+                            category: {
+                                equals: "unspecified",
+                            },
+                        },
+                        sort: sort,
+                        depth: 1,
+                        limit: limit,
+                        page: page,
+                    })];
+                case 10:
+                    _g = _h.sent(), items = _g.docs, hasNextPage = _g.hasNextPage, nextPage = _g.nextPage;
                     return [2 /*return*/, {
                             items: items,
                             nextPage: hasNextPage ? nextPage : null,
@@ -140,8 +371,8 @@ exports.appRouter = (0, trpc_1.router)({
                             collection: "work",
                             where: {
                                 user: {
-                                    equals: userId
-                                }
+                                    equals: userId,
+                                },
                             },
                             sort: sort,
                             depth: 1,

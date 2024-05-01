@@ -51,13 +51,14 @@ var StripeWebhook = function (req, res) { return __awaiter(void 0, void 0, void 
                 body = webhookRequest.rawBody;
                 signature = req.headers["stripe-signature"] || "";
                 try {
-                    event = stripeClient_1.default.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET || "");
+                    event = stripeClient_1.default.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_KEY || "");
                 }
                 catch (err) {
                     return [2 /*return*/, res
                             .status(400)
                             .send("Webhook Error: ".concat(err instanceof Error ? err.message : "Unknown Error"))];
                 }
+                console.log("@@@@@@@@@@@@@@@@@@@");
                 session = event.data.object;
                 if (!((_a = session === null || session === void 0 ? void 0 : session.metadata) === null || _a === void 0 ? void 0 : _a.orderId)) {
                     return [2 /*return*/, res.status(400).send("Webhook Error: No order in data")];
@@ -109,7 +110,7 @@ var StripeWebhook = function (req, res) { return __awaiter(void 0, void 0, void 
             case 4:
                 _b.sent();
                 _b.label = 5;
-            case 5: return [2 /*return*/];
+            case 5: return [2 /*return*/, res.status(200).send()];
         }
     });
 }); };

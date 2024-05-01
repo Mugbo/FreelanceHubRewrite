@@ -44,12 +44,12 @@ exports.workRouter = (0, trpc_1.router)({
     createWorkPosting: trpc_1.privateProcedure
         .input(post_validator_1.PostDataValidator)
         .mutation(function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
-        var title, description, workFiles, user, payload, newWork;
+        var title, description, price, category, user, payload, newWork;
         var input = _b.input, ctx = _b.ctx;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    title = input.title, description = input.description, workFiles = input.workFiles;
+                    title = input.title, description = input.description, price = input.price, category = input.category;
                     user = ctx.user;
                     return [4 /*yield*/, (0, get_payload_1.getPayloadClient)()];
                 case 1:
@@ -59,10 +59,10 @@ exports.workRouter = (0, trpc_1.router)({
                             data: {
                                 title: title,
                                 description: description,
-                                workFiles: workFiles,
                                 user: user.id,
+                                category: category,
                                 approved: "unverified",
-                                price: 0,
+                                price: price,
                             },
                         })];
                 case 2:

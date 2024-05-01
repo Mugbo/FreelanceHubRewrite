@@ -82,7 +82,6 @@ exports.authRouter = (0, trpc_1.router)({
             }
         });
     }); }),
-    //api route definition
     verifyEmail: trpc_1.publicProcedure
         .input(zod_1.z.object({ token: zod_1.z.string() }))
         .query(function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {

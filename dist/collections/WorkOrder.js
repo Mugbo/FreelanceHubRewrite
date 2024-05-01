@@ -35,20 +35,19 @@ var WorkOrder = {
         }
     ],
     access: {
-        // Define your access control functions here if needed
-        read: function () { return true; }, // Example: Allow read access universally
+        read: function () { return true; },
         create: function (_a) {
             var req = _a.req;
             return Boolean(req.user);
-        }, // Example: Only logged-in users can create orders
+        },
         update: function (_a) {
             var req = _a.req;
             return req.user && req.user.role === 'admin';
-        }, // Example: Only admin users can update orders
+        },
         delete: function (_a) {
             var req = _a.req;
             return req.user && req.user.role === 'admin';
-        }, // Example: Only admin users can delete orders
+        },
     },
     admin: {
         useAsTitle: 'WorkOrders',
