@@ -26,9 +26,7 @@ const WorkListings = ({ workItem, index }: WorkListingsProps) => {
     return <WorkPlaceHolder />;
   }
 
-  const category = CATEGORIES.find(
-    ({ value }) => value === workItem.category
-  )?.label;
+  const category = workItem.category
 
   if (isVisible && workItem) {
     return (

@@ -8,6 +8,7 @@ const Page = () => {
         title="All"
         sub="Take your pick"
         query={{ sort: "desc", limit: 100 }}
+        type="none"
       />
     </MaxWidthWrapper>
   );
